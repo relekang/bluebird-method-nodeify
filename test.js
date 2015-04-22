@@ -13,6 +13,9 @@ TestObject.prototype = {
   getAttr: methodNodeify(0, function getAttr() {
     return this.attr;
   }),
+  add: methodNodeify(2, function add(n1, n2) {
+    return n1 + n2;
+  }),
   getAttrWithError: methodNodeify(0, function getAttrWithError() {
     throw new Error('an error');
   })
@@ -22,6 +25,11 @@ describe('bluebird-method-nodeify', function() {
   it('should return a promise which resolves the value', function() {
     t = new TestObject('hi there!');
     return expect(t.getAttr()).to.eventually.equal('hi there!');
+  });
+  
+  it('should return a promise which resolves the value based on an argument', function() {
+    t = new TestObject('hi there!');
+    return expect(t.add(40, 2)).to.eventually.equal(42);
   });
 
   it('should accept a callback which resolves the value', function(done) {
